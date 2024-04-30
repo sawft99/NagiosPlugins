@@ -62,7 +62,7 @@ $InvalidCerts = $CertStatus | Where-Object -Property Status -ne 'Valid'
 if ($InvalidCerts.count -gt 0) {
     $LASTEXITCODE = 2
     Write-Output "CRITICAL: $($InvalidCerts.Count) plugin(s) have no valid signature"
-    $ExtraOutput = 'Plugins: '
+    $ExtraOutput = 'Plugin(s): '
     $ExtraOutput = $ExtraOutput += $InvalidCerts.ShortName -join ', '
     Write-Output $ExtraOutput
     exit $LASTEXITCODE
@@ -74,29 +74,30 @@ $CriticalOnlyCerts = $CertStatus | Where-Object {$_.CriticalStatus -eq $true} | 
 if (($WarningOnlyCerts.Count -gt 0) -and $CriticalOnlyCerts.Count -lt 1) {
     $LASTEXITCODE = 1
     Write-Output "WARNING: $($WarningOnlyCerts.Count) plugin(s) signatures are expiring in $WarningThreshold or less days"
-    $ExtraOutput = 'Plugins: '
+    $ExtraOutput = 'Plugin(s): '
     $ExtraOutput = $ExtraOutput += $WarningOnlyCerts.ShortName -join ', '
     Write-Output $ExtraOutput
 } elseif ($CriticalOnlyCerts.Count -gt 0) {
     $LASTEXITCODE = 2
     Write-Output "CRITICAL: $($CriticalOnlyCerts.Count) plugin(s) signatures are expiring in $CriticalThreshold or less days"
-    $ExtraOutput = 'Plugins: '
+    $ExtraOutput = 'Plugin(s): '
     $ExtraOutput = $ExtraOutput += $CriticalOnlyCerts.ShortName -join ', '
     Write-Output $ExtraOutput
     if ($WarningOnlyCerts.Count -gt 0) {
-        $ExtraOutput = 'WARNING expiring plugins: '
+        $ExtraOutput = 'WARNING expiring Plugin(s): '
         $ExtraOutput = $ExtraOutput += $WarningOnlyCerts.ShortName -join ', '
         Write-Output $ExtraOutput
     }
 } elseif (($WarningOnlyCerts.Count -lt 1) -and ($CriticalOnlyCerts.Count -lt 1) -and ($PluginFiles.Count -gt 0)) {
     $LASTEXITCODE = 0
     Write-Output "OK: No plugin signatures are expiring in $WarningThreshold or less days"
-    $ExtraOutput = 'Plugins: '
+    $ExtraOutput = 'Plugin(s): '
     $ExtraOutput = $ExtraOutput += $CertStatus.ShortName -join ', '
     Write-Output $ExtraOutput
 } else {
-    $LASTEXITCODE = 3
+    #Should rarely or never trigger since the script includes itself in the signatures check and if there were in fact no plugins in the folder then this script would never run in the first place to report this error
     Write-Output 'UNKNOWN: No plugins in folder or unable to access folder'
+    $LASTEXITCODE = 3
 }
 
 exit $LASTEXITCODE
