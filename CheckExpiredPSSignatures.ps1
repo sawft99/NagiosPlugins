@@ -2,6 +2,7 @@
 
 $PluginsFolder = "$env:ProgramFiles\Nagios\NCPA\plugins"
 #$PluginsFolder = 'C:\\Program Files\\Nagios\NCPA\\plugins'
+$PowerShellExtensions = @('.ps1','.psm1','.psd1','.ps1xml','.pssc')
 [int]$WarningThreshold = $args[0]
 [int]$CriticalThreshold = $args[1]
 
@@ -29,7 +30,7 @@ if (!(Test-Path $PluginsFolder)) {
     $LASTEXITCODE = 3
     exit $LASTEXITCODE
 } else {
-    $PluginFiles = Get-ChildItem $PluginsFolder | Where-Object -Property Mode -eq '-a----'
+    $PluginFiles = Get-ChildItem $PluginsFolder | Where-Object {($_.Mode -eq '-a----') -and ($_.Extension -in $PowerShellExtensions)}
     if ($null -eq $PluginFiles) {
         $LASTEXITCODE = 3
     }
@@ -41,7 +42,7 @@ if (!(Test-Path $PluginsFolder)) {
 $Time = Get-Date
 
 $CertStatus = foreach ($Plugin in $SignStatus) {
-    if ($Plugin.Status -ne 'NotSigned') {
+    if ($null -ne $Plugin.SignerCertificate) {
         $WarningStatus = $Plugin.SignerCertificate.NotAfter.AddDays(-$WarningThreshold) -lt $Time
         $Plugin | Add-Member -MemberType NoteProperty -Name WarningStatus -Value $WarningStatus -Force
         $CriticalStatus = $Plugin.SignerCertificate.NotAfter.AddDays(-$CriticalThreshold) -lt $Time
