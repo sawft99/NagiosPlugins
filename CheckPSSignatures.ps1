@@ -26,7 +26,7 @@ if ($WarningThreshold -le $CriticalThreshold) {
     exit $LASTEXITCODE
 }
 if (!(Test-Path $PluginsFolder)) {
-    Write-Output 'Unknown: Plugin folder not found'
+    Write-Output 'UNKNOWN: Plugin folder not found'
     $LASTEXITCODE = 3
     exit $LASTEXITCODE
 } else {
@@ -61,8 +61,10 @@ $CertStatus = foreach ($Plugin in $SignStatus) {
 $InvalidCerts = $CertStatus | Where-Object -Property Status -ne 'Valid'
 if ($InvalidCerts.count -gt 0) {
     $LASTEXITCODE = 2
-    Write-Output "CRITICAL: $($InvalidCerts.Count) plugin signatures are not valid"
-    Write-Output ($InvalidCerts.ShortName -join ', ')
+    Write-Output "CRITICAL: $($InvalidCerts.Count) plugin(s) have no valid signature"
+    $ExtraOutput = 'Plugins: '
+    $ExtraOutput = $ExtraOutput += $InvalidCerts.ShortName -join ', '
+    Write-Output $ExtraOutput
     exit $LASTEXITCODE
 }
 
@@ -71,22 +73,30 @@ $CriticalOnlyCerts = $CertStatus | Where-Object {$_.CriticalStatus -eq $true} | 
 
 if (($WarningOnlyCerts.Count -gt 0) -and $CriticalOnlyCerts.Count -lt 1) {
     $LASTEXITCODE = 1
-    Write-Output "WARNING: $($WarningOnlyCerts.Count) plugin signatures are expiring in $WarningThreshold or less days"
-    Write-Output ($WarningOnlyCerts.ShortName -join ', ')
+    Write-Output "WARNING: $($WarningOnlyCerts.Count) plugin(s) signatures are expiring in $WarningThreshold or less days"
+    $ExtraOutput = 'Plugins: '
+    $ExtraOutput = $ExtraOutput += $WarningOnlyCerts.ShortName -join ', '
+    Write-Output $ExtraOutput
 } elseif ($CriticalOnlyCerts.Count -gt 0) {
     $LASTEXITCODE = 2
-    Write-Output "CRITICAL: $($CriticalOnlyCerts.Count) plugin signatures are expiring in $CriticalThreshold or less days"
-    Write-Output ($CriticalOnlyCerts.ShortName -join ', ')
+    Write-Output "CRITICAL: $($CriticalOnlyCerts.Count) plugin(s) signatures are expiring in $CriticalThreshold or less days"
+    $ExtraOutput = 'Plugins: '
+    $ExtraOutput = $ExtraOutput += $CriticalOnlyCerts.ShortName -join ', '
+    Write-Output $ExtraOutput
     if ($WarningOnlyCerts.Count -gt 0) {
-        Write-Output 'WARNING expiring plugins: '($WarningOnlyCerts.ShortName -join ', ')
+        $ExtraOutput = 'WARNING expiring plugins: '
+        $ExtraOutput = $ExtraOutput += $WarningOnlyCerts.ShortName -join ', '
+        Write-Output $ExtraOutput
     }
 } elseif (($WarningOnlyCerts.Count -lt 1) -and ($CriticalOnlyCerts.Count -lt 1) -and ($PluginFiles.Count -gt 0)) {
     $LASTEXITCODE = 0
     Write-Output "OK: No plugin signatures are expiring in $WarningThreshold or less days"
-    Write-Output 'Plugins:'($CertStatus.ShortName -join ', ')
+    $ExtraOutput = 'Plugins: '
+    $ExtraOutput = $ExtraOutput += $CertStatus.ShortName -join ', '
+    Write-Output $ExtraOutput
 } else {
     $LASTEXITCODE = 3
-    Write-Output 'Unknown: No plugins in folder or unable to access folder'
+    Write-Output 'UNKNOWN: No plugins in folder or unable to access folder'
 }
 
 exit $LASTEXITCODE
