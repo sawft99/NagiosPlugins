@@ -15,7 +15,7 @@ Various Nagios plugins
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckScriptCertExperation.ps1/14/7'`
 - This will send a warning alert when a signature is about to expire in 14 or less days and then change to critical when it expires in 7 or less days
 
-## [CheckNCPAVersion/ps1](./CheckNCPAVersion.ps1)
+## [CheckNCPAVersion.ps1](./CheckNCPAVersion.ps1)
 
 - Checks if current NCPA installed is up to date based on the latest github release
 
