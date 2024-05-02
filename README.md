@@ -7,8 +7,8 @@ Various Nagios plugins
 
 ### Arguments
 
-- WARNING: Threshold for the number of days left until a signature is considered soon to expire.
-- CRITICAL: Threshold for the number of days left until a signature is considered soon to expire.
+- WARNING: Threshold for the number of days left until a signature is considered soon to expire
+- CRITICAL: Threshold for the number of days left until a signature is considered soon to expire
 
 ### Example
 
@@ -26,3 +26,17 @@ Various Nagios plugins
 ### Example
 
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckNCPAVersion.ps1'`
+
+## [CheckWinLocalAccounts.ps1](./CheckWinLocalAccounts.ps1)
+
+- Checks if specified users & groups are present, enabled, and an administrator on a local PC
+- Variables can be configured to specify each group
+- **<ins>Currently not on Nagios Exchange</ins>**
+
+### Arguments
+
+- N/A
+
+### Example
+
+- `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckWinLocalAccounts.ps1'`
