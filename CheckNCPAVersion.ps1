@@ -5,6 +5,8 @@
 
 #Forces TLS 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+#Find latest version from Github
 $LatestVersion = ((Invoke-WebRequest $NCPAVersionURL.Uri -UseBasicParsing).Content).TrimEnd('')
 $CurrentVersion = $NCPAExe.VersionInfo.ProductVersion
 
@@ -13,15 +15,15 @@ $CurrentVersion = $NCPAExe.VersionInfo.ProductVersion
 if (!(Test-Path $NCPAExe)) {
     Write-Output 'CRITICAL: NCPA not found'
     $LASTEXITCODE = 2
-}
-
-if ($CurrentVersion -eq $LatestVersion) {
+} elseif ($CurrentVersion -eq $LatestVersion) {
     Write-Output 'OK: NCPA is up to date'
-    Write-Output "Current verison is $CurrentVersion and the latest version is $LatestVersion"
+    Write-Output "Latest Version:  $LatestVersion"
+    Write-Output "Current Verison: $CurrentVersion"
     $LASTEXITCODE = 0
 } elseif ($CurrentVersion -ne $LatestVersion) {
-    Write-Output 'WARNING: NCPAis out of date'
-    Write-Output "Current verison is $CurrentVersion and the latest version is $LatestVersion"
+    Write-Output 'WARNING: NCPA is out of date'
+    Write-Output "Latest Version:  $LatestVersion"
+    Write-Output "Current Verison: $CurrentVersion"
     $LASTEXITCODE = 1
 } else {
     Write-Output 'UNKNOWN: Unknown issue'
