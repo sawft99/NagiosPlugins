@@ -143,7 +143,7 @@ if ($LASTEXITCODE -eq 0) {
 } else {
     'UNKNOWN: ' + $UptimeMessage
 }
-Write-Output $UptimeMessage
+
 Write-Output "Warning trigger:  $WarningUptime hours"
 Write-Output "Critical trigger: $CriticalUptime hours"
 Write-Output "Max event age:    $MaxEventAge hours"
