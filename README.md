@@ -25,7 +25,7 @@ Various Nagios plugins
 ### Example
 
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckScriptCertExperation.ps1/14/7'`
-- This will send a warning alert when a signature is about to expire in 14 or less days and then change to critical when it expires in 7 or less days
+  - This will send a warning alert when a signature is about to expire in 14 or less days and then change to critical when it expires in 7 or less days
 
 ## [CheckWinLocalAccounts.ps1](./CheckWinLocalAccounts.ps1)
 
@@ -40,3 +40,30 @@ Various Nagios plugins
 ### Example
 
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckWinLocalAccounts.ps1'`
+
+## [ShutdownAndUptime.ps1](./ShutdownAndUptime.ps1)
+
+- Checks if server has been up for X amount of time
+  - Measured in total hours i.e. 3 days = 72 hours
+- Variables can specify critical threshold, warning threshold and how far to look back in the event log
+  - Also measured in total hours
+- Will also return
+  -  A CRITICAL value if any Error or Critical level event is found
+  -  A WARNING value if any Warninng level event is found
+-  Errors detected (Non info) in events will override uptime settings
+  - See example
+- **<ins>Currently not on Nagios Exchange</ins>**
+
+### Arguments
+
+- WARNING: Threshold for the minimum amount of time the server has to be up
+- CRITICAL: Threshold for more recently rebooted servers
+- EventAge: How far back to look in the event log for reboot events
+
+### Example
+
+- `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/ShutdownAndUptime.ps1/24/12/24'`
+  - Warning if the server has been up for less than 24 hours, Critical if it has been up for less than 12, look back 24 hours in the event log for reboot events
+- `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/ShutdownAndUptime.ps1/6/4/24'`
+  - Warning if the server has been up for less than 6 hours, Critical if it has been up for less than 4, look back 24 hours in the event log for reboot events
+  - With the EventAge variable being larger than the uptime thresholds, it will report Critical, Error, & Warning level events with the appropriate exit codes even if uptime exceeds 6 or 4 hours 
