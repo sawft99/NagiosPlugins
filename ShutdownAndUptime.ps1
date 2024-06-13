@@ -78,10 +78,30 @@ $EventsReformat = foreach ($EventLog in $EventsFiltered) {
 }
 
 #Get counts of event level types
-$CriticalCount = ($EventsReformat | Where-Object -Property Level -EQ 'Critical').Count
-$ErrorCount = ($EventsReformat | Where-Object -Property Level -EQ 'Error').Count
-$WarningCount = ($EventsReformat | Where-Object -Property Level -EQ 'Warning').Count
-$InfoCount = ($EventsReformat | Where-Object -Property Level -EQ 'Information').Count
+$CriticalCount = ($EventsReformat | Where-Object -Property Level -EQ 'Critical')
+if (($null -ne $CriticalCount) -and $null -eq $CriticalCount.Count) {
+    $CriticalCount = 1
+} else {
+    $CriticalCount = $CriticalCount.Count
+}
+$ErrorCount = ($EventsReformat | Where-Object -Property Level -EQ 'Error')
+if (($null -ne $ErrorCount) -and $null -eq $ErrorCount.Count) {
+    $ErrorCount = 1
+} else {
+    $ErrorCount = $ErrorCount.Count
+}
+$WarningCount = ($EventsReformat | Where-Object -Property Level -EQ 'Warning')
+if (($null -ne $WarningCount) -and $null -eq $WarningCount.Count) {
+    $WarningCount = 1
+} else {
+    $WarningCount = $WarningCount.Count
+}
+$InfoCount = ($EventsReformat | Where-Object -Property Level -EQ 'Information')
+if (($null -ne $InfoCount) -and $null -eq $InfoCount.Count) {
+    $InfoCount = 1
+} else {
+    $InfoCount = $InfoCount.Count
+}
 $RebootEventCount = $CriticalCount + $ErrorCount + $WarningCount + $InfoCount
 
 #Set exit depending on types of events found
