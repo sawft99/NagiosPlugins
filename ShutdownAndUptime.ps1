@@ -17,6 +17,14 @@
 
 #----------------- 
 
+#Validate input
+if ($Error.Count -gt 0) {
+    $LASTEXITCODE = 3
+    Clear-Host
+    Write-Output 'UNKNOWN: Only use Int32 numbers for the arguments'
+    exit $LASTEXITCODE
+}
+
 #Reboot & Shutdown EventLog.Id IDs
 $EventIDs = @(41,1074,1076,6005,6006,6008)
 
