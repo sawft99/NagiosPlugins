@@ -49,12 +49,14 @@ $EventsReformat = foreach ($EventLog in $EventsFiltered) {
         Container = $EventLog.ContainerLog
         ProviderName = $EventLog.ProviderName
         Log = $EventLog.LogName
-        User = $EventLog.UserId
+        User = $EventLog.UserId.Value
         Message = $EventLog.Message
     }
     #Determine SID type
-    $SIDID1 = ($EventLog.Id.ToString().trimstart('S-1-5-') -split '-') | Select-Object -First 1
-    $SIDTest1 = $SIDID1 -in 0..20
+    if ($null -ne $EventLog.UserId) {
+        $SIDID1 = (($EventLog.UserId.Value.ToString()) -split '-')[3]
+        $SIDTest1 = $SIDID1 -in 0..20
+    }
     #Test for Get-ADUser abilities. Will reports AD user if able
     $ADUserAbility = (Get-Command Get-ADUser -ErrorAction SilentlyContinue).count -gt 0
     if ($null -eq $EventLog.UserId) {
