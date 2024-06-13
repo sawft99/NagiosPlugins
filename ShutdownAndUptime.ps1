@@ -81,22 +81,40 @@ if (($CriticalCount -gt 0) -or ($ErrorCount -gt 0)) {
     $LASTEXITCODE = 2
 } elseif ($WarningCount -gt 0) {
     $LASTEXITCODE = 1
-}
-
-#Adjust exit code based on uptime
-if ($ActualUptime -lt $WarningUptime) {
-    $LASTEXITCODE = 1
-    if ($ActualUptime -lt $CriticalUptime) {
-        $LASTEXITCODE = 2
-    }
-} elseif ($ActualUptime -gt $WarningUptime) {
+} elseif ($InfoCount -gt 0) {
+    $LASTEXITCODE = 0
+} elseif ($RebootEventCount -lt 1) {
     $LASTEXITCODE = 0
 } else {
     $LASTEXITCODE = 3
 }
 
+#Adjust exit code based on uptime
+if ($ActualUptime -lt $WarningUptime) {
+    $LASTEXITCODE = 1
+    if (($CriticalCount -gt 0) -or ($ErrorCount -gt 0)) {
+        $LASTEXITCODE = 2
+    }
+    if ($ActualUptime -lt $CriticalUptime) {
+        $LASTEXITCODE = 2
+    }
+} elseif ($ActualUptime -ge $WarningUptime) {
+    $LASTEXITCODE = $LASTEXITCODE
+} else {
+    $LASTEXITCODE = 3
+}
+
 #Output
-$UptimeMessage = $UptimeMessage + " with $RebootEventCount reboot events"
+$UptimeMessage = $UptimeMessage + " with $RebootEventCount reboot events in the past $MaxEventAge hours"
+if ($LASTEXITCODE -eq 0) {
+    'OK: ' + $UptimeMessage
+} elseif ($LASTEXITCODE -eq 1) {
+    'WARNING: ' + $UptimeMessage
+} elseif ($LASTEXITCODE -eq 2) {
+    'CRITICAL: ' + $UptimeMessage
+} else {
+    'UNKNOWN: ' + $UptimeMessage
+}
 Write-Output $UptimeMessage
 Write-Output "Warning trigger:  $WarningUptime hours"
 Write-Output "Critical trigger: $CriticalUptime hours"
