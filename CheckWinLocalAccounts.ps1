@@ -72,7 +72,7 @@ if ($ShouldNotBeAdmins.count -gt 0) {
     $Output = 'Accounts: '
     $Output += $MissingLocalAccounts.Name -join ', '
     Write-Output $Output
-    $LASTEXITCODE
+    $LASTEXITCODE = 1
 } elseif ($ShouldNotBeEnabledAccounts.count -gt 0) {
     Write-Output 'WARNING: Some accounts that should NOT be enabled are'
     $Output = 'Accounts: '
