@@ -2,20 +2,20 @@
 
 #Reference
 #Event Log ID | Meaning
-#41   | The system has rebooted without cleanly shutting down first.
-#1074 | The system has been shutdown properly by a user or process.
-#1076	| Follows after EventLog.Id ID 6008 and means that the first user with shutdown privileges logged on to the server after an unexpected restart or shutdown and specified the cause.
-#6005 | The EventLog.Id Log service was started. Indicates the system startup.
-#6006	| The EventLog.Id Log service was stopped. Indicates the proper system shutdown.
-#6008	| The previous system shutdown was unexpected.
-#6009	| The operating system version detected at the system startup.
-#6013	| The system uptime in seconds.
+#41   | The system has rebooted without cleanly shutting down first
+#1074 | The system has been shutdown properly by a user or process
+#1076 | Follows after EventLog.Id ID 6008 and means that the first user with shutdown privileges logged on to the server after an unexpected restart or shutdown and specified the cause
+#6005 | The EventLog.Id Log service was started. Indicates the system startup
+#6006 | The EventLog.Id Log service was stopped. Indicates the proper system shutdown
+#6008 | The previous system shutdown was unexpected
+#6009 | The operating system version detected at the system startup
+#6013 | The system uptime in seconds
 
 [int32]$WarningUptime = $args[0] #Uptime in total hours. Example, if you want 3 days enter 72
 [int32]$CriticalUptime = $args[1] #Uptime in total hours.
 [int32]$MaxEventAge = $args[2] #In total hours. Don't look back more than X hours in the event log
 
-#----------------- 
+#-----------------
 
 #Validate input
 if ($Error.Count -gt 0) {
