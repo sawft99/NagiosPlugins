@@ -28,6 +28,11 @@ Various Nagios plugins
   - Warning if the server has been up for less than 6 hours, Critical if it has been up for less than 4, look back 24 hours in the event log for reboot events
   - With the EventAge variable being larger than the uptime thresholds, it will report Critical, Error, & Warning level events with the appropriate exit codes even if uptime exceeds 6 or 4 hours 
 
+![Ex-Uptime2.png](./Examples/Ex-Uptime2.png)
+![Ex-Uptime1.png](./Examples/Ex-Uptime1.png)
+![Ex-Uptime4.png](./Examples/Ex-Uptime4.png)
+![Ex-Uptime3.png](./Examples/Ex-Uptime3.png)
+
 ## [CheckNCPAVersion.ps1](./CheckNCPAVersion.ps1)
 
 - Checks if current NCPA installed is up to date based on the latest github release
@@ -40,6 +45,9 @@ Various Nagios plugins
 ### Example
 
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckNCPAVersion.ps1'`
+
+![Ex-NCPA1.png](./Examples/Ex-NCPA1.png)
+![Ex-NCPA2.png](./Examples/Ex-NCPA2.png)
 
 ## [CheckPSSignatures.ps1](./CheckPSSignatures.ps1)
 
@@ -56,6 +64,9 @@ Various Nagios plugins
 
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckScriptCertExperation.ps1/14/7'`
   - This will send a warning alert when a signature is about to expire in 14 or less days and then change to critical when it expires in 7 or less days
+
+![Ex-Sigs1.png](./Examples/Ex-Sigs1.png)
+![Ex-Sigs2.png](./Examples/Ex-Sigs2.png)
 
 ## [CheckWazuhVersion.ps1](./CheckWazuhVersion.ps1)
 
@@ -74,6 +85,8 @@ Various Nagios plugins
 
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckWazuhVersion.ps1'`
 
+![Ex-Wazuh1.png](./Examples/Ex-Wazuh1.png)
+![Ex-Wazuh2.png](./Examples/Ex-Wazuh2.png)
 
 ## [CheckWinLocalAccounts.ps1](./CheckWinLocalAccounts.ps1)
 
@@ -88,3 +101,6 @@ Various Nagios plugins
 ### Example
 
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckWinLocalAccounts.ps1'`
+
+![Ex-WinAccounts1.png](./Examples/Ex-WinAccounts1.png)
+![Ex-WinAccounts2.png](./Examples/Ex-WinAccounts2.png)
