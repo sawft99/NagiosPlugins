@@ -101,3 +101,6 @@ Various Nagios plugins
 ### Example
 
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckWinLocalAccounts.ps1'`
+
+![Ex-WinAccounts1.png](./Examples/Ex-WinAccounts1.png)
+![Ex-WinAccounts2.png](./Examples/Ex-WinAccounts2.png)
