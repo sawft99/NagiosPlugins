@@ -11,18 +11,15 @@ $Domain = (Get-ADDomain).NetBIOSName
 $ShouldBeLocalAccounts = @(
     'Administrator',
     'DefaultAccount',
-    'Guest',
-    'WDAGUtilityAccount',
-    'OtherAdmin'
+    'Guest'
 )
 $ShouldBeEnabledAccounts = @(
-    'OtherAdmin'
+    'Administrator'
 )
 # Group names also work for the $ShouldBeAdminAccounts variable
 # It includes the $ComputerName and $Domain variables in front because the get command for local groups returns user accounts with the domain or computername in front
 $ShouldBeAdminAccounts = @(
     "$ComputerName\Administrator",
-    "$ComputerName\OtherAdmin",
     "$Domain\Domain Admins"
 )
 $AllLocalUsers = Get-LocalUser | Select-Object -Property *
@@ -49,37 +46,37 @@ $MissingAdminAccounts = $ShouldBeAdminAccounts | Where-Object {$_ -notin $Admins
 
 # Report
 
-if ($ShouldNotBeAdmins.count -gt 0) {
+if ($null -ne $ShouldNotBeAdmins) {
     Write-Output 'CRITICAL: Some accounts that should NOT be admins are'
     $Output = 'Accounts: '
     $Output += $ShouldNotBeAdmins.Name -join ', '
     Write-Output $Output
     $LASTEXITCODE = 2
-} elseif ($MissingAdminAccounts.count -gt 0) {
+} elseif ($null -ne $MissingAdminAccounts) {
     Write-Output 'CRITICAL: Some accounts that SHOULD be admins are not'
     $Output = 'Accounts: '
-    $Output += $MissingAdminAccounts.Name -join ', '
+    $Output += $MissingAdminAccounts -join ', '
     Write-Output $Output
     $LASTEXITCODE = 2
-} elseif ($ShouldNotBeLocalAccounts.count -gt 0) {
+} elseif ($null -ne $ShouldNotBeLocalAccounts) {
     Write-Output 'WARNING: There are additional local accounts'
     $Output = 'Accounts: '
     $Output += $ShouldNotBeLocalAccounts.Name -join ', '
     Write-Output $Output
     $LASTEXITCODE = 1
-} elseif ($MissingLocalAccounts.count -gt 0) {
+} elseif ($null -ne $MissingLocalAccounts) {
     Write-Output 'WARNING: There are missing local accounts'
     $Output = 'Accounts: '
-    $Output += $MissingLocalAccounts.Name -join ', '
+    $Output += $MissingLocalAccounts -join ', '
     Write-Output $Output
     $LASTEXITCODE = 1
-} elseif ($ShouldNotBeEnabledAccounts.count -gt 0) {
+} elseif ($null -ne $ShouldNotBeEnabledAccounts) {
     Write-Output 'WARNING: Some accounts that should NOT be enabled are'
     $Output = 'Accounts: '
     $Output += $ShouldNotBeEnabledAccounts.Name -join ', '
     Write-Output $Output
     $LASTEXITCODE = 1
-} elseif ($MissingEnabledAccounts.count -gt 0) {
+} elseif ($null -ne $MissingEnabledAccounts) {
     Write-Output 'WARNING: Some accounts that SHOULD be enabled are not'
     $Output = 'Accounts: '
     $Output += $MissingEnabledAccounts.Name -join ', '
