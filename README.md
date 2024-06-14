@@ -4,6 +4,7 @@ Various Nagios plugins
 ## [CheckNCPAVersion.ps1](./CheckNCPAVersion.ps1)
 
 - Checks if current NCPA installed is up to date based on the latest github release
+- Nagios Exchange page: https://exchange.nagios.org/directory/Plugins/Software/CheckNCPAVersion/details
 
 ### Arguments
 
@@ -15,7 +16,9 @@ Various Nagios plugins
 
 ## [CheckPSSignatures.ps1](./CheckPSSignatures.ps1)
 
-- Checks if any PS scripts in the plugin folder have a soon to expire, expired, invalid, or non-existent signature. Arguments represent the number of days left until a signature expires. Any invalid or expired signatures will be considered critical
+- Checks if any PS scripts in the plugin folder have a soon to expire, expired, invalid, or non-existent signature
+- Arguments represent the number of days left until a signature expires. Any invalid or expired signatures will be considered critical
+- Nagios Exchange page: https://exchange.nagios.org/directory/Plugins/Security/CheckPSSignatures/details
 
 ### Arguments
 
@@ -41,17 +44,17 @@ Various Nagios plugins
 
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckWinLocalAccounts.ps1'`
 
-## [ShutdownAndUptime.ps1](./ShutdownAndUptime.ps1)
+## [CheckForRestartsAndUptime.ps1](./CheckForRestartsAndUptime.ps1)
 
 - Checks if server has been up for X amount of time
   - Measured in total hours i.e. 3 days = 72 hours
-- Variables can specify critical threshold, warning threshold and how far to look back in the event log
+- Variables can specify critical threshold, warning threshold, and how far to look back in the event log
   - Also measured in total hours
 - Will also return
   -  A CRITICAL value if any Error or Critical level event is found
   -  A WARNING value if any Warninng level event is found
--  Errors detected (Non info) in events will override uptime settings
-  - See example
+  -  Errors detected (Non info) in events will override uptime settings
+      -  See example
 - **<ins>Currently not on Nagios Exchange</ins>**
 
 ### Arguments
