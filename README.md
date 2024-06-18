@@ -1,6 +1,23 @@
 # NagiosPlugins
 Various Nagios plugins
 
+## Table of Contents
+- [CheckForRestartsAndUptime.ps1](#checkforrestartsanduptimeps1)
+  - [Arguments](#arguments)
+  - [Example](#example)
+- [CheckNCPAVersion.ps1](#checkncpaversionps1)
+  - [Arguments](#arguments-1)
+  - [Example](#example-1)
+- [CheckPSSignatures.ps1](#checkpssignaturesps1)
+  - [Arguments](#arguments-2)
+  - [Example](#example-2)
+- [CheckWazuhVersion.ps1](#checkwazuhversionps1)
+  - [Arguments](#arguments-3)
+  - [Example](#example-3)
+- [CheckWinLocalAccounts.ps1](#checkwinlocalaccountsps1)
+  - [Arguments](#arguments-4)
+  - [Example](#example-4)
+
 ## [CheckForRestartsAndUptime.ps1](./CheckForRestartsAndUptime.ps1)
 
 - Checks if server has been up for X amount of time
