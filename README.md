@@ -29,7 +29,7 @@ Various Nagios plugins
   -  A WARNING value if any Warninng level event is found
   -  Errors detected (Non info) in events will override uptime settings
       -  See example
-- **<ins>Currently not on Nagios Exchange</ins>**
+- Nagios Exchange page: https://exchange.nagios.org/directory/Plugins/System-Metrics/Uptime/CheckForRestartsAndUptime/details
 
 ### Arguments
 
