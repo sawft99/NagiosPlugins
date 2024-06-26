@@ -11,12 +11,15 @@ Various Nagios plugins
 - [CheckPSSignatures.ps1](#checkpssignaturesps1)
   - [Arguments](#arguments-2)
   - [Example](#example-2)
-- [CheckWazuhVersion.ps1](#checkwazuhversionps1)
+- [CheckTeamviewerVersion.ps1](#checkteamviewerversionps1)
   - [Arguments](#arguments-3)
   - [Example](#example-3)
-- [CheckWinLocalAccounts.ps1](#checkwinlocalaccountsps1)
+- [CheckWazuhVersion.ps1](#checkwazuhversionps1)
   - [Arguments](#arguments-4)
   - [Example](#example-4)
+- [CheckWinLocalAccounts.ps1](#checkwinlocalaccountsps1)
+  - [Arguments](#arguments-5)
+  - [Example](#example-5)
 
 ## [CheckForRestartsAndUptime.ps1](./CheckForRestartsAndUptime.ps1)
 
@@ -84,6 +87,23 @@ Various Nagios plugins
 
 ![Ex-Sigs1.png](./Examples/Ex-Sigs1.png)
 ![Ex-Sigs2.png](./Examples/Ex-Sigs2.png)
+
+## [CheckTeamviewerVersion.ps1](./CheckTeamviewerVersion.ps1)
+
+- Checks if computer is running an outdated Teamviewer
+- Inside script there is a variable for $MaxMinorDif with a default value of '4'
+  - This will determine the number of revisions between the latest version and the installed version
+  - If it is more than 4 minor revisions behind, or 1+ major release behind, it reports CRITICAL
+  - 4 or less revisions reports as WARNING
+- **<ins>Currently not on Nagios Exchange</ins>**
+
+### Arguments
+
+- N/A
+
+### Example
+
+- `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckTeamviewerVersion.ps1'`
 
 ## [CheckWazuhVersion.ps1](./CheckWazuhVersion.ps1)
 
