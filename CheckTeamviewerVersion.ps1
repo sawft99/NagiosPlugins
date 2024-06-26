@@ -1,7 +1,7 @@
 #Check if latest Teamviewer version is installed
 
 [System.UriBuilder]$LatestVersionURL = 'https://www.teamviewer.com/en-us/download/windows/'
-[System.IO.FileInfo]$TVExe = ${env:ProgramFiles} + '\' + 'TeamViewer' + '\' + 'TeamViewer.exe'
+
 #If more than X minor versions behind, report as critical
 #Example if $MaxMinorDif = 4: Latest = 15.5.0, Installed = 15.2.0, reports as warning. If Latest = 15.5.0, Installed = 15.0.0, then it will report as critical
 #Being behind by 1 or more major versions is automatically critical
@@ -10,14 +10,30 @@
 
 #---------
 
+#Detect x64 or x86 TV
+[System.IO.FileInfo]$TVExe = ${env:ProgramFiles} + '\' + 'TeamViewer' + '\' + 'TeamViewer.exe'
+
+if ($TVExe.Exists -eq $false) {
+    [System.IO.FileInfo]$TVExe = ${env:ProgramFiles(x86)} + '\' + 'TeamViewer' + '\' + 'TeamViewer.exe'
+}
+if ($TVExe.Exists -eq $false) {
+    Write-Output 'UNKNOWN: Teamviewer not found or not installed'
+    exit 3
+}
+
 #Forces TLS 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 #Find latest version from TV site
-$WebPage = New-Object -ComObject "HTMLFile"
-$Content = (Invoke-WebRequest -Uri $LatestVersionURL.Uri -UseBasicParsing).Content.ToString()
-$WebPage.write([ref]$Content)
-[string]$LatestVersion = ((($WebPage.body.innerText -split '\n') | Where-Object {$_ -cmatch 'Current version: '} | Select-Object -First 1).TrimStart('Current version: ')).TrimEnd('')
+#$WebPage = New-Object -ComObject "HTMLFile"
+#$Content = (Invoke-WebRequest -Uri $LatestVersionURL.Uri -UseBasicParsing).Content.ToString()
+#$WebPage.write([ref]$Content)
+
+#More compatible version
+$Content = (Invoke-WebRequest -Uri $LatestVersionURL.Uri -UseBasicParsing).Content
+
+[string]$LatestVersion = ((($Content -split '\n') | Where-Object {$_ -cmatch 'Current version: '} | Select-Object -First 1).TrimStart('Current version: ')).TrimEnd('')
+$LatestVersion = $LatestVersion.Trim('<span data-dl-version-label>').trim('</')
 $LatestVersion = ($LatestVersion -split '\.' | Select-Object -First 3) -join '.'
 [version]$LatestVersion = $LatestVersion
 
