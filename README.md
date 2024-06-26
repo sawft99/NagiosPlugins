@@ -105,6 +105,9 @@ Various Nagios plugins
 
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckTeamviewerVersion.ps1'`
 
+![Ex-TV1.png](./Examples/Ex-TV1.png)
+![Ex-TV2.png](./Examples/Ex-TV2.png)
+
 ## [CheckWazuhVersion.ps1](./CheckWazuhVersion.ps1)
 
 - Checks if computer is running an outdated Wazuh agent
