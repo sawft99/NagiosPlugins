@@ -1,4 +1,4 @@
-#Check each powershell plugin in the plugins folder to see when script signing cert will expire
+#Check each PowerShell plugin in the plugins folder to see when script signing cert will expire
 
 $PluginsFolder = "$env:ProgramFiles\Nagios\NCPA\plugins"
 #$PluginsFolder = 'C:\\Program Files\\Nagios\NCPA\\plugins'
