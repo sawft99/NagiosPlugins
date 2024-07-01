@@ -1,4 +1,4 @@
-#Checks if latest Wazuh agent is installed
+#Checks if latest Wazuh Wazuh is installed
 
 [System.UriBuilder]$LatestVersionURL = 'https://github.com/wazuh/wazuh/releases/latest'
 $WazuhVersionFile = ${env:ProgramFiles(x86)} + '\' + 'ossec-agent' + '\' + 'VERSION'
@@ -35,22 +35,22 @@ $MinorDif = $LatestVersion.Minor - $InstalledVersion.Minor
 
 #Report
 if ($LatestVersion -eq $InstalledVersion) {
-    Write-Output 'OK: Agent is up to date'
+    Write-Output 'OK: Wazuh is up to date'
     Write-Output "Latest Version:  $LatestVersion"
     Write-Output "Current Version: $InstalledVersion"
     $LASTEXITCODE = 0
 } elseif (($MajorDif -le 0) -and ($MinorDif -gt 0) -and ($MinorDif -lt $MaxMinorDif)) {
-    Write-Output 'WARNING: Agent is out of date'
+    Write-Output 'WARNING: Wazuh is out of date'
     Write-Output "Latest Version:  $LatestVersion"
     Write-Output "Current Version: $InstalledVersion"
     $LASTEXITCODE = 1
 } elseif (($MajorDif -gt 0) -or ($MinorDif -ge $MaxMinorDif)) {
-    Write-Output 'CRITICAL: Agent is VERY out of date'
+    Write-Output 'CRITICAL: Wazuh is VERY out of date'
     Write-Output "Latest Version:  $LatestVersion"
     Write-Output "Current Version: $InstalledVersion"
     $LASTEXITCODE = 2
 } elseif ($LatestVersion -gt $InstalledVersion) {
-    Write-Output 'WARNING: Agent is out of date'
+    Write-Output 'WARNING: Wazuh is out of date'
     Write-Output "Latest Version:  $LatestVersion"
     Write-Output "Current Version: $InstalledVersion"
     $LASTEXITCODE = 1
