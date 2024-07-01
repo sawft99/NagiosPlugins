@@ -1,4 +1,4 @@
-#Check if latest Teamviewer version is installed
+#Check if latest TeamViewer version is installed
 
 [System.UriBuilder]$LatestVersionURL = 'https://www.teamviewer.com/en-us/download/windows/'
 
@@ -17,7 +17,7 @@ if ($TVExe.Exists -eq $false) {
     [System.IO.FileInfo]$TVExe = ${env:ProgramFiles(x86)} + '\' + 'TeamViewer' + '\' + 'TeamViewer.exe'
 }
 if ($TVExe.Exists -eq $false) {
-    Write-Output 'UNKNOWN: Teamviewer not found or not installed'
+    Write-Output 'UNKNOWN: TeamViewer not found or not installed'
     exit 3
 }
 
@@ -37,7 +37,7 @@ $LatestVersion = $LatestVersion.Trim('<span data-dl-version-label>').trim('</')
 $LatestVersion = ($LatestVersion -split '\.' | Select-Object -First 3) -join '.'
 [version]$LatestVersion = $LatestVersion
 
-#Compare newest verison and current version
+#Compare newest version and current version
 [string]$InstalledVersion = $TVExe.VersionInfo.FileVersion
 $InstalledVersion = ($InstalledVersion -split '\.' | Select-Object -First 3) -join '.'
 [version]$InstalledVersion = $InstalledVersion

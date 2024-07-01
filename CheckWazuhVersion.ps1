@@ -19,7 +19,7 @@ if (!(Test-Path $WazuhVersionFile)) {
 #Forces TLS 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-#Find latest version from Github
+#Find latest version from GitHub
 $WebPage = New-Object -ComObject "HTMLFile"
 $Content = (Invoke-WebRequest -Uri $LatestVersionURL.Uri -UseBasicParsing).Content.ToString()
 $WebPage.write([ref]$Content)
