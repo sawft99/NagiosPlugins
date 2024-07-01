@@ -6,7 +6,7 @@
 #Forces TLS 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-#Find latest version from Github
+#Find latest version from GitHub
 $LatestVersion = ((Invoke-WebRequest $NCPAVersionURL.Uri -UseBasicParsing).Content).TrimEnd('')
 $CurrentVersion = $NCPAExe.VersionInfo.ProductVersion
 
