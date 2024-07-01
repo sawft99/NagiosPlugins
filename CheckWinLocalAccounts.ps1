@@ -17,7 +17,7 @@ $ShouldBeEnabledAccounts = @(
     'Administrator'
 )
 # Group names also work for the $ShouldBeAdminAccounts variable
-# It includes the $ComputerName and $Domain variables in front because the get command for local groups returns user accounts with the domain or computername in front
+# It includes the $ComputerName and $Domain variables in front because the get command for local groups returns user accounts with the domain or computer name in front
 $ShouldBeAdminAccounts = @(
     "$ComputerName\Administrator",
     "$Domain\Domain Admins"
