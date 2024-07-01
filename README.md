@@ -29,7 +29,7 @@ Various Nagios plugins
   - Also measured in total hours
 - Will also return
   -  A CRITICAL value if any Error or Critical level event is found
-  -  A WARNING value if any Warninng level event is found
+  -  A WARNING value if any Warning level event is found
   -  Errors detected (Non info) in events will override uptime settings
       -  See example
 - Nagios Exchange page: https://exchange.nagios.org/directory/Plugins/System-Metrics/Uptime/CheckForRestartsAndUptime/details
@@ -55,7 +55,7 @@ Various Nagios plugins
 
 ## [CheckNCPAVersion.ps1](./CheckNCPAVersion.ps1)
 
-- Checks if current NCPA installed is up to date based on the latest github release
+- Checks if current NCPA installed is up to date based on the latest GitHub release
 - Nagios Exchange page: https://exchange.nagios.org/directory/Plugins/Software/CheckNCPAVersion/details
 
 ### Arguments
@@ -90,7 +90,7 @@ Various Nagios plugins
 
 ## [CheckTeamviewerVersion.ps1](./CheckTeamviewerVersion.ps1)
 
-- Checks if computer is running an outdated Teamviewer
+- Checks if computer is running an outdated TeamViewer
 - Inside script there is a variable for $MaxMinorDif with a default value of '4'
   - This will determine the number of revisions between the latest version and the installed version
   - If it is more than 4 minor revisions behind, or 1+ major release behind, it reports CRITICAL
