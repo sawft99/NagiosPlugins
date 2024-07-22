@@ -2,18 +2,18 @@
 
 #Reference
 #Event Log ID | Meaning
-#41   | The system has rebooted without cleanly shutting down first
-#1074 | The system has been shutdown properly by a user or process
-#1076 | Follows after EventLog.Id ID 6008 and means that the first user with shutdown privileges logged on to the server after an unexpected restart or shutdown and specified the cause
-#6005 | The EventLog.Id Log service was started. Indicates the system startup
-#6006 | The EventLog.Id Log service was stopped. Indicates the proper system shutdown
-#6008 | The previous system shutdown was unexpected
-#6009 | The operating system version detected at the system startup
-#6013 | The system uptime in seconds
+#41           | The system has rebooted without cleanly shutting down first
+#1074         | The system has been shutdown properly by a user or process
+#1076         | Follows after EventLog.Id ID 6008 and means that the first user with shutdown privileges logged on to the server after an unexpected restart or shutdown and specified the cause
+#6005         | The EventLog.Id Log service was started. Indicates the system startup
+#6006         | The EventLog.Id Log service was stopped. Indicates the proper system shutdown
+#6008         | The previous system shutdown was unexpected
+#6009         | The operating system version detected at the system startup
+#6013         | The system uptime in seconds
 
 [int32]$WarningUptime = $args[0] #Uptime in total hours. Example, if you want 3 days enter 72
 [int32]$CriticalUptime = $args[1] #Uptime in total hours.
-[int32]$MaxEventAge = $args[2] #In total hours. Don't look back more than X hours in the event log
+[int32]$MaxEventAge = $args[2] #Uptime in total hours. Don't look back more than X hours in the event log
 
 #-----------------
 
@@ -21,7 +21,7 @@
 if ($Error.Count -gt 0) {
     $LASTEXITCODE = 3
     Clear-Host
-    Write-Output 'UNKNOWN: Only use Int32 numbers for the arguments'
+    Write-Output 'UNKNOWN: Use only Int32 numbers for the arguments'
     exit $LASTEXITCODE
 }
 
@@ -81,25 +81,25 @@ $EventsReformat = foreach ($EventLog in $EventsFiltered) {
 
 #Get counts of event level types
 $CriticalCount = ($EventsReformat | Where-Object -Property Level -EQ 'Critical')
-if (($null -ne $CriticalCount) -and $null -eq $CriticalCount.Count) {
+if (($null -ne $CriticalCount) -and ($null -eq $CriticalCount.Count)) {
     $CriticalCount = 1
 } else {
     $CriticalCount = $CriticalCount.Count
 }
 $ErrorCount = ($EventsReformat | Where-Object -Property Level -EQ 'Error')
-if (($null -ne $ErrorCount) -and $null -eq $ErrorCount.Count) {
+if (($null -ne $ErrorCount) -and ($null -eq $ErrorCount.Count)) {
     $ErrorCount = 1
 } else {
     $ErrorCount = $ErrorCount.Count
 }
 $WarningCount = ($EventsReformat | Where-Object -Property Level -EQ 'Warning')
-if (($null -ne $WarningCount) -and $null -eq $WarningCount.Count) {
+if (($null -ne $WarningCount) -and ($null -eq $WarningCount.Count)) {
     $WarningCount = 1
 } else {
     $WarningCount = $WarningCount.Count
 }
 $InfoCount = ($EventsReformat | Where-Object -Property Level -EQ 'Information')
-if (($null -ne $InfoCount) -and $null -eq $InfoCount.Count) {
+if (($null -ne $InfoCount) -and ($null -eq $InfoCount.Count)) {
     $InfoCount = 1
 } else {
     $InfoCount = $InfoCount.Count
@@ -149,7 +149,8 @@ if ($LASTEXITCODE -eq 0) {
 Write-Output "Warning trigger:  $WarningUptime hours"
 Write-Output "Critical trigger: $CriticalUptime hours"
 Write-Output "Max event age:    $MaxEventAge hours"
-if ($EventsReformat.Count -gt 0) {
+
+if ($Null -ne $EventsReformat) {
 Write-Output '
 =====
 Events
