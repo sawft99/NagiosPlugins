@@ -20,10 +20,10 @@ Various Nagios plugins
 - [CheckWazuhVersion.ps1](#checkwazuhversionps1)
   - [Arguments](#arguments-5)
   - [Example](#example-5)
-- [CheckWindowsActivation.ps1](#CheckWindowsActivationps1)
+- [CheckWinLocalAccounts.ps1](#checkwinlocalaccountsps1)
   - [Arguments](#arguments-6)
   - [Example](#example-6)
-- [CheckWinLocalAccounts.ps1](#checkwinlocalaccountsps1)
+- [CheckWindowsActivation.ps1](#CheckWindowsActivationps1)
   - [Arguments](#arguments-7)
   - [Example](#example-7)
 
