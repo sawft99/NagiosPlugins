@@ -5,7 +5,7 @@ Various Nagios plugins
 - [CheckForRestartsAndUptime.ps1](#checkforrestartsanduptimeps1)
   - [Arguments](#arguments)
   - [Example](#example)
-- [CheckLastWindowsUpdate.ps1](CheckLastWindowsUpdateps1)
+- [CheckLastWindowsUpdate.ps1](#CheckLastWindowsUpdateps1)
   - [Arguments](#arguments-1)
   - [Example](#example-1)
 - [CheckNCPAVersion.ps1](#checkncpaversionps1)
