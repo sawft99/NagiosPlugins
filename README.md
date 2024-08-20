@@ -5,21 +5,27 @@ Various Nagios plugins
 - [CheckForRestartsAndUptime.ps1](#checkforrestartsanduptimeps1)
   - [Arguments](#arguments)
   - [Example](#example)
-- [CheckNCPAVersion.ps1](#checkncpaversionps1)
+- [CheckLastWindowsUpdate.ps1](CheckLastWindowsUpdateps1)
   - [Arguments](#arguments-1)
   - [Example](#example-1)
-- [CheckPSSignatures.ps1](#checkpssignaturesps1)
+- [CheckNCPAVersion.ps1](#checkncpaversionps1)
   - [Arguments](#arguments-2)
   - [Example](#example-2)
-- [CheckTeamviewerVersion.ps1](#checkteamviewerversionps1)
+- [CheckPSSignatures.ps1](#checkpssignaturesps1)
   - [Arguments](#arguments-3)
   - [Example](#example-3)
-- [CheckWazuhVersion.ps1](#checkwazuhversionps1)
+- [CheckTeamviewerVersion.ps1](#checkteamviewerversionps1)
   - [Arguments](#arguments-4)
   - [Example](#example-4)
-- [CheckWinLocalAccounts.ps1](#checkwinlocalaccountsps1)
+- [CheckWazuhVersion.ps1](#checkwazuhversionps1)
   - [Arguments](#arguments-5)
   - [Example](#example-5)
+- [CheckWindowsActivation.ps1](#CheckWindowsActivationps1)
+  - [Arguments](#arguments-6)
+  - [Example](#example-6)
+- [CheckWinLocalAccounts.ps1](#checkwinlocalaccountsps1)
+  - [Arguments](#arguments-7)
+  - [Example](#example-7)
 
 ## [CheckForRestartsAndUptime.ps1](./CheckForRestartsAndUptime.ps1)
 
@@ -48,10 +54,34 @@ Various Nagios plugins
   - Warning if the server has been up for less than 6 hours, Critical if it has been up for less than 4, look back 24 hours in the event log for reboot events
   - With the EventAge variable being larger than the uptime thresholds, it will report Critical, Error, & Warning level events with the appropriate exit codes even if uptime exceeds 6 or 4 hours 
 
-![Ex-Uptime2.png](./Examples/Ex-Uptime2.png)
 ![Ex-Uptime1.png](./Examples/Ex-Uptime1.png)
-![Ex-Uptime4.png](./Examples/Ex-Uptime4.png)
+![Ex-Uptime2.png](./Examples/Ex-Uptime2.png)
 ![Ex-Uptime3.png](./Examples/Ex-Uptime3.png)
+![Ex-Uptime4.png](./Examples/Ex-Uptime4.png)
+
+## [CheckLastWindowsUpdate.ps1](./CheckLastWindowsUpdate.ps1)
+
+- Checks if computer has had updates in X number of days
+
+### Arguments
+
+- CRITICAL: Threshold for when the number of days without updates is exceded (Should be higher number than WARNING)
+- WARNING: Threshold for when the number of days without updates is exceded
+- IncludeAVOutput: Show Antivirus update informaiton in output
+- CountAV: Whether to count AV output as Windows updates or not. Note you can have the output without counting it
+- OnlyShow: Max number of update entries to show
+
+### Example
+
+- `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckLastWindowsUpdate.ps1/62/31/true/false/5'`
+  - CRITICAL returned if it has been more than 62 days without Windows Updates
+  - WARNING returned if it has been more than 31 days without Windows Updates
+  - Show AV updates in the output
+  - Do NOT count AV updates as Windows Updates
+  - Only show the 5 most recent update entries
+
+![EX-Updates1.png](./Examples/EX-Updates1.png)
+![EX-Updates2.png](./Examples/EX-Updates2.png)
 
 ## [CheckNCPAVersion.ps1](./CheckNCPAVersion.ps1)
 
@@ -87,6 +117,28 @@ Various Nagios plugins
 
 ![Ex-Sigs1.png](./Examples/Ex-Sigs1.png)
 ![Ex-Sigs2.png](./Examples/Ex-Sigs2.png)
+
+## [CheckShutdownsAndUptime.ps1](./CheckShutdownsAndUptime.ps1)
+
+- Checks what computers uptime is and if there have been any recent reboot events
+- **<ins>Currently not on Nagios Exchange</ins>**
+
+### Arguments
+
+- WARNING: Will return a WARNING level if computer uptime is less than X
+- CRITICAL: Will return a CRITICAL level if computer uptime is less than X (Should be lower number than WARNING)
+- MaxEventAge: How many hours to look back into event log for reboot events
+  - If MaxEventAge is higher than WARNING and it finds a reboot event, it will return a CRITICAL or WARNING status
+
+### Example
+
+- `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckShutdownsAndUptime.ps1/24/12/24'`
+  - If computer uptime is less than 24 hours send a WARNING alert
+  - If computer uptime is less than 12 hours send a CRITICAL alert
+  - Look back only 24 hours into event log for reboot events
+
+![Ex-Uptime1.png](./Examples/Ex-Uptime1.png)
+![Ex-Uptime2.png](./Examples/Ex-Uptime2.png)
 
 ## [CheckTeamviewerVersion.ps1](./CheckTeamviewerVersion.ps1)
 
@@ -144,3 +196,18 @@ Various Nagios plugins
 
 ![Ex-WinAccounts1.png](./Examples/Ex-WinAccounts1.png)
 ![Ex-WinAccounts2.png](./Examples/Ex-WinAccounts2.png)
+
+## [CheckWindowsActivation.ps1](./CheckWindowsActivation.ps1)
+
+- Checks to see if Windows is licensed, genuine, and how long the license/grace period lasts
+
+### Arguments
+
+- N/A
+
+### Example
+
+- `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckWindowsActivation.ps1'`
+
+![EX-Activation1.png](./Examples/EX-Activation1.png)
+![EX-Activation2.png](./Examples/EX-Activation2.png)
