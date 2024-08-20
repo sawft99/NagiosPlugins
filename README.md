@@ -62,6 +62,7 @@ Various Nagios plugins
 ## [CheckLastWindowsUpdate.ps1](./CheckLastWindowsUpdate.ps1)
 
 - Checks if computer has had updates in X number of days
+- **<ins>Currently not on Nagios Exchange</ins>**
 
 ### Arguments
 
@@ -117,28 +118,6 @@ Various Nagios plugins
 
 ![Ex-Sigs1.png](./Examples/Ex-Sigs1.png)
 ![Ex-Sigs2.png](./Examples/Ex-Sigs2.png)
-
-## [CheckShutdownsAndUptime.ps1](./CheckShutdownsAndUptime.ps1)
-
-- Checks what computers uptime is and if there have been any recent reboot events
-- **<ins>Currently not on Nagios Exchange</ins>**
-
-### Arguments
-
-- WARNING: Will return a WARNING level if computer uptime is less than X
-- CRITICAL: Will return a CRITICAL level if computer uptime is less than X (Should be lower number than WARNING)
-- MaxEventAge: How many hours to look back into event log for reboot events
-  - If MaxEventAge is higher than WARNING and it finds a reboot event, it will return a CRITICAL or WARNING status
-
-### Example
-
-- `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/CheckShutdownsAndUptime.ps1/24/12/24'`
-  - If computer uptime is less than 24 hours send a WARNING alert
-  - If computer uptime is less than 12 hours send a CRITICAL alert
-  - Look back only 24 hours into event log for reboot events
-
-![Ex-Uptime1.png](./Examples/Ex-Uptime1.png)
-![Ex-Uptime2.png](./Examples/Ex-Uptime2.png)
 
 ## [CheckTeamviewerVersion.ps1](./CheckTeamviewerVersion.ps1)
 
