@@ -179,6 +179,7 @@ Various Nagios plugins
 ## [CheckWindowsActivation.ps1](./CheckWindowsActivation.ps1)
 
 - Checks to see if Windows is licensed, genuine, and how long the license/grace period lasts
+- **<ins>Currently not on Nagios Exchange</ins>**
 
 ### Arguments
 
