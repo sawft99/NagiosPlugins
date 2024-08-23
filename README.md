@@ -5,7 +5,7 @@ Various Nagios plugins
 - [CheckForRestartsAndUptime.ps1](#checkforrestartsanduptimeps1)
   - [Arguments](#arguments)
   - [Example](#example)
-- [CheckLastWindowsUpdate.ps1](#CheckLastWindowsUpdateps1)
+- [CheckLastWindowsUpdate.ps1](#checklastwindowsupdateps1)
   - [Arguments](#arguments-1)
   - [Example](#example-1)
 - [CheckNCPAVersion.ps1](#checkncpaversionps1)
@@ -37,7 +37,9 @@ Various Nagios plugins
   -  A CRITICAL value if any Error or Critical level event is found
   -  A WARNING value if any Warning level event is found
   -  Errors detected (Non info) in events will override uptime settings
-      -  See example
+    -  See example
+- Common error: `Get-WinEvent : The description string for parameter reference (%1) could not be found`
+  - Typically means that System log is too large to parse, clear or shrink it 
 - Nagios Exchange page: https://exchange.nagios.org/directory/Plugins/System-Metrics/Uptime/CheckForRestartsAndUptime/details
 
 ### Arguments
