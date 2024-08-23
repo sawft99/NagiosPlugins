@@ -122,7 +122,7 @@ if (($CriticalCount -gt 0) -or ($ErrorCount -gt 0)) {
 #Adjust exit code based on uptime
 if ($ActualUptime -lt $WarningUptime) {
     $LASTEXITCODE = 1
-    if (($CriticalCount -gt 0) -or ($ErrorCount -gt 0)) {
+    if (($CriticalCount -gt 0) -or ($Error.Count -gt 0)) {
         $LASTEXITCODE = 2
     }
     if ($ActualUptime -lt $CriticalUptime) {
@@ -146,6 +146,11 @@ if ($LASTEXITCODE -eq 0) {
     'UNKNOWN: ' + $UptimeMessage
 }
 
+if ($Error.Count -gt 0) {
+    'UNKNOWN: Some other issue in script'
+    $LASTEXITCODE = 3
+}
+
 Write-Output "Warning trigger:  $WarningUptime hours"
 Write-Output "Critical trigger: $CriticalUptime hours"
 Write-Output "Max event age:    $MaxEventAge hours"
@@ -157,4 +162,5 @@ Events
 ====='
     Write-Output $EventsReformat
 }
+
 exit $LASTEXITCODE
