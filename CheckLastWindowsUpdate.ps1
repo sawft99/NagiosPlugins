@@ -155,9 +155,14 @@ try {
 
     #-----------------------------
 
-    $DefenderSignatureVersion = Get-MpComputerStatus | Select-Object -Property AntispywareSignatureVersion | Select-Object -ExpandProperty AntispywareSignatureVersion
-    if ($null -eq $DefenderSignatureVersion) {
-        $DefenderSignatureVersion = 'No signatures present or Defender not enabled'
+    $MpcCommandTest = $null -eq (Get-Command Get-MpComputerStatus -ErrorAction SilentlyContinue)
+    if ($MpcCommandTest -eq $false) {
+        $DefenderSignatureVersion = Get-MpComputerStatus -ErrorAction SilentlyContinue | Select-Object -Property AntispywareSignatureVersion -ErrorAction SilentlyContinue | Select-Object -ExpandProperty AntispywareSignatureVersion -ErrorAction SilentlyContinue
+        if ($null -eq $DefenderSignatureVersion) {
+            $DefenderSignatureVersion = 'No signatures present or Defender not enabled'
+        }
+    } else {
+        $DefenderSignatureVersion = 'Get-MpComputerStatus command not supported'
     }
 
     #-----------------------------
