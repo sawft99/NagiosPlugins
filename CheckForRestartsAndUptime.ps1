@@ -58,7 +58,11 @@ $EventsReformat = foreach ($EventLog in $EventsFiltered) {
         $SIDTest1 = $SIDID1 -in 0..20
     }
     #Test for Get-ADUser abilities. Will reports AD user if able
+    $PreErrorCheck = $Error.Count
     $ADUserAbility = (Get-Command Get-ADUser -ErrorAction SilentlyContinue).count -gt 0
+    if ($PreErrorCheck -lt 1) {
+        $Error.Clear()
+    }
     if ($null -eq $EventLog.UserId) {
         $NewEvent.User = 'None/Unknown'
     } elseif ($SIDTest1 -eq $false) {
@@ -122,7 +126,7 @@ if (($CriticalCount -gt 0) -or ($ErrorCount -gt 0)) {
 #Adjust exit code based on uptime
 if ($ActualUptime -lt $WarningUptime) {
     $LASTEXITCODE = 1
-    if (($CriticalCount -gt 0) -or ($ErrorCount -gt 0)) {
+    if (($CriticalCount -gt 0) -or ($Error.Count -gt 0)) {
         $LASTEXITCODE = 2
     }
     if ($ActualUptime -lt $CriticalUptime) {
@@ -146,6 +150,11 @@ if ($LASTEXITCODE -eq 0) {
     'UNKNOWN: ' + $UptimeMessage
 }
 
+if ($Error.Count -gt 0) {
+    'UNKNOWN: Some other issue in script'
+    $LASTEXITCODE = 3
+}
+
 Write-Output "Warning trigger:  $WarningUptime hours"
 Write-Output "Critical trigger: $CriticalUptime hours"
 Write-Output "Max event age:    $MaxEventAge hours"
@@ -157,4 +166,5 @@ Events
 ====='
     Write-Output $EventsReformat
 }
+
 exit $LASTEXITCODE
