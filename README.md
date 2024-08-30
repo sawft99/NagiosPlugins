@@ -38,8 +38,9 @@ Various Nagios plugins
   -  A WARNING value if any Warning level event is found
   -  Errors detected (Non info) in events will override uptime settings
     -  See example
-- Common error: `Get-WinEvent : The description string for parameter reference (%1) could not be found`
-  - Typically means that System log is too large to parse, clear or shrink it 
+- Common error:
+  -  `Get-WinEvent : The description string for parameter reference (%1) could not be found` or script timing out
+  - Typically means that System log is too large to parse, clear or shrink it
 - Nagios Exchange page: https://exchange.nagios.org/directory/Plugins/System-Metrics/Uptime/CheckForRestartsAndUptime/details
 
 ### Arguments
@@ -54,7 +55,7 @@ Various Nagios plugins
   - Warning if the server has been up for less than 24 hours, Critical if it has been up for less than 12, look back 24 hours in the event log for reboot events
 - `check_ncpa.py -t 'TOKEN' -P 5693 -M 'plugins/ShutdownAndUptime.ps1/6/4/24'`
   - Warning if the server has been up for less than 6 hours, Critical if it has been up for less than 4, look back 24 hours in the event log for reboot events
-  - With the EventAge variable being larger than the uptime thresholds, it will report Critical, Error, & Warning level events with the appropriate exit codes even if uptime exceeds 6 or 4 hours 
+  - With the EventAge variable being larger than the uptime thresholds, it will report Critical, Error, & Warning level events with the appropriate exit codes even if uptime exceeds 6 or 4 hours
 
 ![Ex-Uptime1.png](./Examples/Ex-Uptime1.png)
 ![Ex-Uptime2.png](./Examples/Ex-Uptime2.png)
