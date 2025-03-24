@@ -37,7 +37,7 @@ $ActualUptime = $CurrentTime - $LastBoot
 $UptimeMessage = "Server has been up for $ActualUptime hours"
 
 #Get events
-$Events = Get-WinEvent -LogName system -Oldest | Where-Object -Property Id -in $EventIDs
+$Events = Get-WinEvent -FilterHashtable @{LogName='System';ID=$EventIDs} -Oldest
 $EventsFiltered = $Events | Where-Object {(($CurrentTime - $_.TimeCreated).TotalHours) -le $MaxEventAge} | Select-Object -Property *
 
 #Reformat event info
@@ -57,7 +57,7 @@ $EventsReformat = foreach ($EventLog in $EventsFiltered) {
         $SIDID1 = (($EventLog.UserId.Value.ToString()) -split '-')[3]
         $SIDTest1 = $SIDID1 -in 0..20
     }
-    #Test for Get-ADUser abilities. Will reports AD user if able
+    #Test for Get-ADUser abilities. Will report AD user if able
     $PreErrorCheck = $Error.Count
     $ADUserAbility = (Get-Command Get-ADUser -ErrorAction SilentlyContinue).count -gt 0
     if ($PreErrorCheck -lt 1) {
