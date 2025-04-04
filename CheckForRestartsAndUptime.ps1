@@ -37,7 +37,11 @@ $ActualUptime = $CurrentTime - $LastBoot
 $UptimeMessage = "Server has been up for $ActualUptime hours"
 
 #Get events
-$Events = Get-WinEvent -FilterHashtable @{LogName='System';ID=$EventIDs} -Oldest
+if ($Error.Count -lt 1) {
+    $Events = Get-WinEvent -FilterHashtable @{LogName='System';ID=$EventIDs} -Oldest -ErrorAction SilentlyContinue
+    #In case no other errors have occurred yet but no events are found to match the filter
+    $Error.Clear()
+}
 $EventsFiltered = $Events | Where-Object {(($CurrentTime - $_.TimeCreated).TotalHours) -le $MaxEventAge} | Select-Object -Property *
 
 #Reformat event info
@@ -140,7 +144,7 @@ if ($ActualUptime -lt $WarningUptime) {
 
 #Output
 $UptimeMessage = $UptimeMessage + " with $RebootEventCount reboot events in the past $MaxEventAge hours"
-if ($LASTEXITCODE -eq 0) {
+if ($LASTEXITCODE -eq 0 -and (!($Error.Count -gt 0))) {
     'OK: ' + $UptimeMessage
 } elseif ($LASTEXITCODE -eq 1) {
     'WARNING: ' + $UptimeMessage
@@ -150,10 +154,10 @@ if ($LASTEXITCODE -eq 0) {
     'UNKNOWN: ' + $UptimeMessage
 }
 
-if ($Error.Count -gt 0) {
-    'UNKNOWN: Some other issue in script'
-    $LASTEXITCODE = 3
-}
+#if (($Error.Count -gt 0) -or ($LASTEXITCODE -eq 3)) {
+#    'UNKNOWN: Some other issue in script'
+#    $LASTEXITCODE = 3
+#}
 
 Write-Output "Warning trigger:  $WarningUptime hours"
 Write-Output "Critical trigger: $CriticalUptime hours"
